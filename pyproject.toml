@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "testing-providers"
 version = "0.1.0"
-description = ""
-authors = ["didi <didi@leaf.space>"]
+description = "Testing utilities for networking apps."
+authors = ["didimelli"]
 readme = "README.md"
 packages = [{include = "testing_providers"}]
+keywords = ["testing", "networking", "asyncio", "trio", "anyio", "curio"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
