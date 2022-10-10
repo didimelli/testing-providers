@@ -1,0 +1,126 @@
+minimum_pre_commit_version: 1.21.0
+repos:
+  - repo: https://github.com/seandstewart/pre-commit-poetry-export
+    rev: f0501a85959a71c26b964d9542a78d1033af083e
+    hooks:
+      - id: export-requirements
+        args: ["--without-hashes"]
+      - id: export-requirements-dev
+        args: ["--without-hashes"]
+  # formatters
+  - repo: https://github.com/myint/docformatter
+    rev: v1.4
+    hooks:
+      - id: docformatter
+        args: [--in-place]
+
+  - repo: https://github.com/hakancelik96/unimport
+    rev: 0.11.3
+    hooks:
+      - id: unimport
+        # args:
+        #   [--remove, --requirements, --include-star-import, --ignore-init, --gitignore]
+        args:
+          [--exclude, "__init__.py|.venv/", --gitignore, --remove, --include-star-import]
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black", "--sl", "--filter-files", "-l", "79"]
+
+  # linters
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+        args: ["-x", "tests"]
+        stages: [push]
+
+  - repo: local
+    hooks:
+      - id: safety
+        name: safety
+        entry: safety
+        language: system
+        pass_filenames: false
+        args: ["check", "--bare"]
+        stages: [push]
+
+      - id: poetry
+        name: poetry
+        description: Validates the structure of the pyproject.toml file
+        entry: poetry check
+        language: system
+        pass_filenames: false
+        files: ^pyproject.toml$
+        stages: [push]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.950
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-ujson==0.1.0]
+
+  - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
+    rev: v0.1.0
+    hooks:
+      - id: dockerfilelint
+        stages: [commit] # required
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: "3.9.2"
+    hooks:
+      - id: flake8
+  # - repo: local
+  #   hooks:
+  #   -   id: flake8 (wemake-python-styleguide enforcement)
+  #       name: flake8 (wemake-python-styleguide enforcement)
+  #       description: wemake-python-styleguide enforcement
+  #       entry: flake8
+  #       # args: ["--config=setup.cfg"]
+  #       language: python
+  #       types: [python]
+  # miscellaneous
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: detect-private-key
+      - id: mixed-line-ending
+      - id: name-tests-test
+        args: ["--django"]
+      - id: check-json
+      - id: pretty-format-json
+        args: [--autofix]
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      #      - id: rst-backticks
+      - id: python-use-type-annotations
+      - id: python-no-log-warn
+      - id: python-no-eval
+      - id: python-check-mock-methods
+      - id: python-check-blanket-noqa
+
+  # commit-msg
+  # http://jorisroovers.com/gitlint/#using-gitlint-through-pre-commit
+
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.17.0
+    hooks:
+      - id: gitlint

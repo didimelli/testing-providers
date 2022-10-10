@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "testing-providers"
+version = "0.1.0"
+description = ""
+authors = ["didi <didi@leaf.space>"]
+readme = "README.md"
+packages = [{include = "testing_providers"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+anyio = "^3.6.1"
+distmqtt = "^0.35.2"
+trio-websocket = "^0.9.2"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^0.982"
+pre-commit = "^2.20.0"
+trio = "^0.22.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
