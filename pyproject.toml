@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "testing-providers"
-version = "0.1.1a1"
+version = "0.1.1a2"
 description = "Testing utilities for networking apps."
 authors = ["didimelli"]
 readme = "README.md"
